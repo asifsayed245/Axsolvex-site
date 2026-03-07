@@ -257,7 +257,7 @@ img { max-width: 100%; display: block; }
 .scroll-indicator {
   position: absolute;
   bottom: 40px;
-  left: 8vw;
+  right: 8vw;
   display: flex;
   align-items: center;
   gap: 10px;
