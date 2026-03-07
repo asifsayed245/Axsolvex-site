@@ -190,6 +190,7 @@ img { max-width: 100%; display: block; }
   justify-content: center;
   padding-left: 8vw;
   padding-right: 8vw;
+  padding-top: calc(var(--header-height) + 20px);
   overflow: hidden;
 }
 
