@@ -156,11 +156,34 @@
     }, 300);
   }
 
+  // ---- Mobile detection ----
+  const isMobile = window.innerWidth <= 768;
+
+  // ---- Hamburger Menu ----
+  const hamburger = document.querySelector(".nav-hamburger");
+  const siteHeader = document.querySelector(".site-header");
+  const navLinksAll = document.querySelectorAll(".nav-links a");
+
+  if (hamburger) {
+    hamburger.addEventListener("click", () => {
+      siteHeader.classList.toggle("nav-open");
+      document.body.style.overflow = siteHeader.classList.contains("nav-open") ? "hidden" : "";
+    });
+
+    navLinksAll.forEach((link) => {
+      link.addEventListener("click", () => {
+        siteHeader.classList.remove("nav-open");
+        document.body.style.overflow = "";
+      });
+    });
+  }
+
   // ---- Lenis Smooth Scroll ----
   const lenis = new Lenis({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smoothWheel: true,
+    touchMultiplier: 1.5,
   });
 
   lenis.on("scroll", ScrollTrigger.update);
@@ -177,7 +200,7 @@
     initSections();
     initCounters();
     initMarquee();
-    initDarkOverlay(0.58, 1.01);
+    initDarkOverlay(isMobile ? 0.57 : 0.58, 1.01);
     initActiveNav();
   }
 
@@ -244,8 +267,12 @@
     const containerHeight = scrollContainer.offsetHeight;
 
     sections.forEach((section) => {
-      const enter = parseFloat(section.dataset.enter) / 100;
-      const leave = parseFloat(section.dataset.leave) / 100;
+      const enter = isMobile && section.dataset.enterM
+        ? parseFloat(section.dataset.enterM) / 100
+        : parseFloat(section.dataset.enter) / 100;
+      const leave = isMobile && section.dataset.leaveM
+        ? parseFloat(section.dataset.leaveM) / 100
+        : parseFloat(section.dataset.leave) / 100;
       const midpoint = (enter + leave) / 2;
 
       // Position section at midpoint
@@ -401,10 +428,12 @@
         scrub: false,
         onUpdate: (self) => {
           const p = self.progress;
-          // Show marquee between 12% and 50% scroll
-          if (p > 0.12 && p < 0.50) {
-            const fadeIn = Math.min(1, (p - 0.12) / 0.05);
-            const fadeOut = Math.min(1, (0.50 - p) / 0.05);
+          // Show marquee between 10% and 48% scroll
+          const mStart = isMobile ? 0.08 : 0.12;
+          const mEnd = isMobile ? 0.48 : 0.50;
+          if (p > mStart && p < mEnd) {
+            const fadeIn = Math.min(1, (p - mStart) / 0.05);
+            const fadeOut = Math.min(1, (mEnd - p) / 0.05);
             el.style.opacity = Math.min(fadeIn, fadeOut);
           } else {
             el.style.opacity = "0";
@@ -443,7 +472,12 @@
     const ctaLink = document.querySelector(".nav-links .nav-cta");
 
     // Map nav hrefs to scroll progress ranges
-    const navMap = [
+    const navMap = isMobile ? [
+      { href: "#services", enter: 0.04, leave: 0.35 },
+      { href: "#products", enter: 0.35, leave: 0.49 },
+      { href: "#technology", enter: 0.49, leave: 0.59 },
+      { href: "#about", enter: 0.59, leave: 0.75 },
+    ] : [
       { href: "#services", enter: 0.05, leave: 0.38 },
       { href: "#products", enter: 0.38, leave: 0.50 },
       { href: "#technology", enter: 0.50, leave: 0.60 },

@@ -631,6 +631,40 @@ img { max-width: 100%; display: block; }
 
 .footer-links a:hover { color: var(--text-on-dark); }
 
+/* ---- Hamburger Button ---- */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 201;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #1a1a18;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-open .nav-hamburger span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-open .nav-hamburger span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-open .nav-hamburger span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 /* ============================================================
    MOBILE RESPONSIVE
    ============================================================ */
@@ -638,8 +672,53 @@ img { max-width: 100%; display: block; }
 @media (max-width: 768px) {
   :root { --header-height: 60px; }
 
-  .nav-links a:not(.nav-cta) { display: none; }
+  /* ---- Hamburger visible ---- */
+  .nav-hamburger { display: flex; }
 
+  /* ---- Mobile menu overlay ---- */
+  .nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+    background: #ffffff;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .nav-open .nav-links {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-links a:not(.nav-cta) {
+    display: block;
+    font-size: 1.1rem;
+  }
+
+  .nav-links a {
+    font-size: 1.2rem;
+  }
+
+  .nav-links .nav-cta {
+    margin-top: 12px;
+    padding: 14px 40px;
+    font-size: 1rem;
+  }
+
+  /* ---- Header ---- */
+  .header-logo-img {
+    height: 48px;
+  }
+
+  /* ---- Hero ---- */
   .hero-heading {
     font-size: clamp(2.8rem, 12vw, 5rem);
   }
@@ -649,13 +728,19 @@ img { max-width: 100%; display: block; }
     padding-right: 6vw;
   }
 
-  #scroll-container { height: 750vh; }
-
-  .products-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
+  .hero-tagline {
+    font-size: 0.95rem;
+    margin-bottom: 40px;
   }
 
+  .scroll-indicator {
+    bottom: 24px;
+  }
+
+  /* ---- Scroll container ---- */
+  #scroll-container { height: 1400vh; }
+
+  /* ---- Section text ---- */
   .align-left,
   .align-right {
     padding-left: 6vw;
@@ -678,19 +763,37 @@ img { max-width: 100%; display: block; }
     font-size: clamp(2rem, 8vw, 3rem);
   }
 
+  .section-body {
+    max-width: 100%;
+  }
+
+  /* ---- Products ---- */
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  /* ---- Stats ---- */
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 32px;
   }
 
+  /* ---- CTA ---- */
   .cta-heading {
     font-size: clamp(2.2rem, 8vw, 3.5rem) !important;
   }
 
+  .cta-button {
+    padding: 16px 36px;
+  }
+
+  /* ---- Marquee ---- */
   .marquee-text {
     font-size: 20vw;
   }
 
+  /* ---- Footer ---- */
   .footer-inner {
     flex-direction: column;
     gap: 12px;
