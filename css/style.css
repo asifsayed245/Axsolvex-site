@@ -63,13 +63,29 @@ img { max-width: 100%; display: block; }
   gap: 28px;
 }
 
+.loader-brand {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-brand::before {
+  content: '';
+  position: absolute;
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.85) 36%, rgba(255,255,255,0) 64%);
+  z-index: 0;
+}
+
 .loader-logo {
+  position: relative;
+  z-index: 1;
   width: 120px;
   height: auto;
   filter: drop-shadow(0 0 30px rgba(232, 197, 71, 0.25));
-  background: radial-gradient(circle, rgba(255,255,255,0.85) 30%, rgba(255,255,255,0) 70%);
-  padding: 24px;
-  border-radius: 50%;
 }
 
 .loader-progress {
