@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Axsolvex — Business Solutions Powered by AI</title>
+  <meta name="description" content="Axsolvex delivers industry-leading SaaS applications, Telegram bots, and mobile apps powered by AI to transform your business.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 1. Loader -->
+  <div id="loader">
+    <div class="loader-inner">
+      <div class="loader-brand">
+        <img src="assets/Axsolvex_yellow_logo_2.png" alt="Axsolvex" class="loader-logo">
+      </div>
+      <div class="loader-progress">
+        <div id="loader-bar"></div>
+      </div>
+      <span id="loader-percent">0%</span>
+    </div>
+  </div>
+
+  <!-- 2. Fixed Header -->
+  <header class="site-header">
+    <nav>
+      <a href="#" class="nav-logo">
+        <img src="assets/Axsolvex_yellow_logo_2.png" alt="Axsolvex" class="header-logo-img">
+      </a>
+      <div class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#products">Products</a>
+        <a href="#technology">Technology</a>
+        <a href="#about">About</a>
+        <a href="#contact" class="nav-cta">Get Started</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 3. Hero: Standalone 100vh -->
+  <section class="hero-standalone" id="hero">
+    <div class="hero-content">
+      <span class="section-label">Welcome to Axsolvex</span>
+      <h1 class="hero-heading">
+        <span class="word">Building</span>
+        <span class="word">Tomorrow's</span>
+        <span class="word accent">Solutions</span>
+        <span class="word">Today</span>
+      </h1>
+      <p class="hero-tagline">SaaS Apps &bull; Telegram Bots &bull; Mobile Apps &mdash; All Powered by AI</p>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll to explore</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 4. Canvas: Fixed full viewport -->
+  <div class="canvas-wrap" id="canvas-wrap">
+    <canvas id="canvas"></canvas>
+  </div>
+
+  <!-- 5. Dark Overlay -->
+  <div id="dark-overlay"></div>
+
+  <!-- 6. Marquee -->
+  <div class="marquee-wrap" id="marquee-1" data-scroll-speed="-30">
+    <span class="marquee-text">INNOVATE &bull; AUTOMATE &bull; ACCELERATE &bull; TRANSFORM &bull; INNOVATE &bull; AUTOMATE &bull; ACCELERATE &bull; TRANSFORM &bull;</span>
+  </div>
+
+  <!-- 7. Scroll Container -->
+  <div id="scroll-container">
+
+    <!-- Section 1: Services Overview -->
+    <section class="scroll-section section-content align-left"
+             data-enter="8" data-leave="20" data-animation="slide-left" id="services">
+      <div class="section-inner">
+        <span class="section-label">001 / Services</span>
+        <h2 class="section-heading">Intelligent<br>Business Solutions</h2>
+        <p class="section-body">We architect and deploy SaaS platforms, Telegram bots, and mobile applications that leverage AI to solve real business problems. From concept to scale.</p>
+      </div>
+    </section>
+
+    <!-- Section 2: SaaS -->
+    <section class="scroll-section section-content align-right"
+             data-enter="18" data-leave="30" data-animation="fade-up">
+      <div class="section-inner">
+        <span class="section-label">002 / SaaS Apps</span>
+        <h2 class="section-heading">Cloud-Native<br>Applications</h2>
+        <p class="section-body">Enterprise-grade SaaS platforms built for performance and reliability. Real-time analytics, seamless integrations, and AI-powered workflows that transform how businesses operate.</p>
+      </div>
+    </section>
+
+    <!-- Section 3: Telegram Bots & Mobile -->
+    <section class="scroll-section section-content align-left"
+             data-enter="28" data-leave="40" data-animation="clip-reveal">
+      <div class="section-inner">
+        <span class="section-label">003 / Bots &amp; Mobile</span>
+        <h2 class="section-heading">Conversational AI<br>&amp; Mobile Power</h2>
+        <p class="section-body">Intelligent Telegram bots that handle customer engagement, automate workflows, and drive conversions. Native mobile experiences that put the power of AI in every user's pocket.</p>
+      </div>
+    </section>
+
+    <!-- Section 4: Products -->
+    <section class="scroll-section section-products"
+             data-enter="38" data-leave="52" data-animation="stagger-up" id="products">
+      <div class="products-wrapper">
+        <span class="section-label">004 / Our Products</span>
+        <h2 class="section-heading products-heading">What We've<br>Built</h2>
+        <div class="products-grid">
+          <div class="product-item">
+            <span class="product-status live">Live</span>
+            <h3 class="product-name">Udhaar Sudhaar AI</h3>
+            <p class="product-desc">AI-powered Telegram bot for Indian small business owners. Snap a photo of any handwritten or printed bill &mdash; the AI reads it via OCR, tracks customer credit (udhaari), and manages payments. Supports Hindi, English &amp; Hinglish with daily payment summaries.</p>
+          </div>
+          <div class="product-item">
+            <span class="product-status coming-soon">Coming Soon</span>
+            <h3 class="product-name">Product Shot</h3>
+            <p class="product-desc">Transform ordinary product photos into stunning professional shots using AI-powered image enhancement and background generation.</p>
+          </div>
+          <div class="product-item">
+            <span class="product-status coming-soon">Coming Soon</span>
+            <h3 class="product-name">Web Chat Widget</h3>
+            <p class="product-desc">Drop-in AI chat widget for any website — intelligent customer support that learns your business and handles queries around the clock.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Technology / AI -->
+    <section class="scroll-section section-content align-right"
+             data-enter="50" data-leave="62" data-animation="slide-right" id="technology">
+      <div class="section-inner">
+        <span class="section-label">005 / Technology</span>
+        <h2 class="section-heading">AI at the<br>Core</h2>
+        <p class="section-body">We integrate industry-leading AI models and machine learning pipelines into every solution. Natural language processing, predictive analytics, and intelligent automation — engineered for impact.</p>
+      </div>
+    </section>
+
+    <!-- Section 6: About + Stats -->
+    <section class="scroll-section section-stats"
+             data-enter="60" data-leave="76" data-animation="stagger-up" id="about">
+      <div class="about-wrapper">
+        <span class="section-label">006 / About Us</span>
+        <h2 class="section-heading about-heading">We Build What<br>Others Only Imagine</h2>
+        <p class="section-body about-body">Axsolvex is a technology company focused on delivering intelligent business solutions. We combine deep engineering expertise with cutting-edge AI to create SaaS platforms, conversational bots, and mobile apps that drive measurable results. Our mission is simple — empower businesses with tools that are smarter, faster, and built to scale.</p>
+        <div class="stats-grid">
+          <div class="stat">
+            <span class="stat-number" data-value="50" data-decimals="0">0</span>
+            <span class="stat-suffix">+</span>
+            <span class="stat-label">Projects Delivered</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number" data-value="99.9" data-decimals="1">0</span>
+            <span class="stat-suffix">%</span>
+            <span class="stat-label">Uptime Guaranteed</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number" data-value="3" data-decimals="0">0</span>
+            <span class="stat-suffix">x</span>
+            <span class="stat-label">Faster Deployment</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number" data-value="24" data-decimals="0">0</span>
+            <span class="stat-suffix">/7</span>
+            <span class="stat-label">AI-Powered Support</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: CTA -->
+    <section class="scroll-section section-cta"
+             data-enter="74" data-leave="100" data-animation="scale-up" data-persist="true" id="contact">
+      <div class="section-inner cta-inner">
+        <span class="section-label">007 / Let's Build</span>
+        <h2 class="section-heading cta-heading">Ready to<br>Transform Your<br>Business?</h2>
+        <p class="section-body">Let's discuss how AI-powered solutions can accelerate your growth.</p>
+        <a href="mailto:hello@axsolvex.com" class="cta-button">Get in Touch</a>
+        <span class="section-note">hello@axsolvex.com &bull; axsolvex.com</span>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-brand">&copy; 2026 Axsolvex. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDN Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
