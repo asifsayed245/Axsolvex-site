@@ -178,6 +178,23 @@
     });
   }
 
+  // ---- Nav anchor smooth scroll ----
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const href = link.getAttribute("href");
+      if (href === "#") return;
+      const target = document.querySelector(href);
+      if (target && target.dataset.enter) {
+        e.preventDefault();
+        const enterVal = isMobile && target.dataset.enterM
+          ? parseFloat(target.dataset.enterM)
+          : parseFloat(target.dataset.enter);
+        const scrollPos = (enterVal / 100) * scrollContainer.offsetHeight + scrollContainer.offsetTop;
+        window.scrollTo({ top: scrollPos, behavior: "smooth" });
+      }
+    });
+  });
+
   // ---- Lenis Smooth Scroll ----
   const lenis = new Lenis({
     duration: 1.2,
@@ -481,7 +498,7 @@
       { href: "#services", enter: 0.05, leave: 0.38 },
       { href: "#products", enter: 0.38, leave: 0.50 },
       { href: "#technology", enter: 0.50, leave: 0.60 },
-      { href: "#about", enter: 0.60, leave: 0.74 },
+      { href: "#about", enter: 0.60, leave: 0.76 },
     ];
 
     ScrollTrigger.create({
@@ -497,7 +514,7 @@
         if (ctaLink) ctaLink.classList.remove("nav-active");
 
         // CTA range
-        if (p >= 0.74) {
+        if (p >= 0.76) {
           if (ctaLink) ctaLink.classList.add("nav-active");
           return;
         }

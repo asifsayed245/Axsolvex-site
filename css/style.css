@@ -333,7 +333,7 @@ img { max-width: 100%; display: block; }
 #scroll-container {
   position: relative;
   z-index: 5;
-  height: 1050vh;
+  height: 850vh;
 }
 
 /* ---- Scroll Sections ---- */
