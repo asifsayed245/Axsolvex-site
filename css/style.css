@@ -675,8 +675,18 @@ img { max-width: 100%; display: block; }
   /* ---- Hamburger visible ---- */
   .nav-hamburger { display: flex; }
 
+  /* ---- Header stays fixed on mobile ---- */
+  .site-header {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    will-change: transform;
+  }
+
   /* ---- Mobile menu overlay ---- */
   .nav-links {
+    display: none !important;
     position: fixed;
     top: 0;
     left: 0;
@@ -688,14 +698,10 @@ img { max-width: 100%; display: block; }
     align-items: center;
     justify-content: center;
     gap: 32px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
   }
 
   .nav-open .nav-links {
-    opacity: 1;
-    visibility: visible;
+    display: flex !important;
   }
 
   .nav-links a:not(.nav-cta) {
