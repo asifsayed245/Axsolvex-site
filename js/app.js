@@ -492,13 +492,13 @@
     const navMap = isMobile ? [
       { href: "#services", enter: 0.04, leave: 0.35 },
       { href: "#products", enter: 0.35, leave: 0.49 },
-      { href: "#technology", enter: 0.49, leave: 0.52 },
-      { href: "#about", enter: 0.52, leave: 0.68 },
+      { href: "#technology", enter: 0.49, leave: 0.56 },
+      { href: "#about", enter: 0.56, leave: 0.72 },
     ] : [
       { href: "#services", enter: 0.05, leave: 0.38 },
       { href: "#products", enter: 0.38, leave: 0.50 },
-      { href: "#technology", enter: 0.50, leave: 0.53 },
-      { href: "#about", enter: 0.53, leave: 0.69 },
+      { href: "#technology", enter: 0.50, leave: 0.57 },
+      { href: "#about", enter: 0.57, leave: 0.73 },
     ];
 
     ScrollTrigger.create({
@@ -514,7 +514,7 @@
         if (ctaLink) ctaLink.classList.remove("nav-active");
 
         // CTA range
-        if (p >= 0.69) {
+        if (p >= 0.73) {
           if (ctaLink) ctaLink.classList.add("nav-active");
           return;
         }
