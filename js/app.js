@@ -1,17 +1,13 @@
 /* ============================================================
    AXSOLVEX — Scroll-Driven Animation Engine
-   Lenis + GSAP + ScrollTrigger + Canvas Frame Renderer
+   Lenis + GSAP + ScrollTrigger + Video Scroll Renderer
    ============================================================ */
 
 (function () {
   "use strict";
 
   // ---- Config ----
-  const FRAME_COUNT = 120;
-  const FRAME_PATH = "frames/frame_";
-  const FRAME_EXT = ".webp";
-  const FRAME_SPEED = 2.0;
-  const IMAGE_SCALE = 0.86;
+  const VIDEO_SPEED = 2.0; // How fast video plays through relative to scroll
 
   // ---- DOM refs ----
   const loader = document.getElementById("loader");
@@ -19,134 +15,48 @@
   const loaderPercent = document.getElementById("loader-percent");
   const heroSection = document.getElementById("hero");
   const canvasWrap = document.getElementById("canvas-wrap");
-  const canvas = document.getElementById("canvas");
-  const ctx = canvas.getContext("2d");
+  const scrollVideo = document.getElementById("scroll-video");
   const scrollContainer = document.getElementById("scroll-container");
   const darkOverlay = document.getElementById("dark-overlay");
 
   // ---- State ----
-  const frames = [];
-  let currentFrame = 0;
-  let bgColor = "#0a0a0a";
+  let videoDuration = 0;
   let isLoaded = false;
 
-  // ---- Canvas sizing ----
-  function resizeCanvas() {
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = window.innerWidth * dpr;
-    canvas.height = window.innerHeight * dpr;
-    canvas.style.width = window.innerWidth + "px";
-    canvas.style.height = window.innerHeight + "px";
-    ctx.scale(dpr, dpr);
-    if (frames[currentFrame]) drawFrame(currentFrame);
-  }
+  // ---- Video preloader ----
+  function preloadVideo() {
+    // Show loading progress
+    loaderBar.style.width = "30%";
+    loaderPercent.textContent = "30%";
 
-  window.addEventListener("resize", resizeCanvas);
-  resizeCanvas();
-
-  // ---- Background color sampler ----
-  function sampleBgColor(img) {
-    const sampleCanvas = document.createElement("canvas");
-    sampleCanvas.width = img.naturalWidth;
-    sampleCanvas.height = img.naturalHeight;
-    const sCtx = sampleCanvas.getContext("2d");
-    sCtx.drawImage(img, 0, 0);
-    const corners = [
-      sCtx.getImageData(2, 2, 1, 1).data,
-      sCtx.getImageData(img.naturalWidth - 3, 2, 1, 1).data,
-      sCtx.getImageData(2, img.naturalHeight - 3, 1, 1).data,
-      sCtx.getImageData(img.naturalWidth - 3, img.naturalHeight - 3, 1, 1).data,
-    ];
-    let r = 0, g = 0, b = 0;
-    corners.forEach((c) => { r += c[0]; g += c[1]; b += c[2]; });
-    r = Math.round(r / 4);
-    g = Math.round(g / 4);
-    b = Math.round(b / 4);
-    return `rgb(${r},${g},${b})`;
-  }
-
-  // ---- Canvas draw ----
-  function drawFrame(index) {
-    const img = frames[index];
-    if (!img) return;
-    const dpr = window.devicePixelRatio || 1;
-    const cw = window.innerWidth;
-    const ch = window.innerHeight;
-    const iw = img.naturalWidth;
-    const ih = img.naturalHeight;
-    const scale = Math.max(cw / iw, ch / ih) * IMAGE_SCALE;
-    const dw = iw * scale;
-    const dh = ih * scale;
-    const dx = (cw - dw) / 2;
-    const dy = (ch - dh) / 2;
-
-    ctx.save();
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    const cDpr = dpr;
-    ctx.fillStyle = bgColor;
-    ctx.fillRect(0, 0, cw * cDpr, ch * cDpr);
-    ctx.restore();
-
-    ctx.fillStyle = bgColor;
-    ctx.fillRect(0, 0, cw, ch);
-    ctx.drawImage(img, dx, dy, dw, dh);
-  }
-
-  // ---- Frame preloader (two-phase) ----
-  function padIndex(i) {
-    return String(i).padStart(4, "0");
-  }
-
-  function loadImage(index) {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => {
-        frames[index] = img;
-        if (index % 20 === 0) bgColor = sampleBgColor(img);
-        resolve();
-      };
-      img.onerror = () => resolve();
-      img.src = FRAME_PATH + padIndex(index + 1) + FRAME_EXT;
+    scrollVideo.addEventListener("loadedmetadata", () => {
+      videoDuration = scrollVideo.duration;
+      loaderBar.style.width = "60%";
+      loaderPercent.textContent = "60%";
     });
-  }
 
-  async function preloadFrames() {
-    let loaded = 0;
+    scrollVideo.addEventListener("canplaythrough", function onReady() {
+      scrollVideo.removeEventListener("canplaythrough", onReady);
+      videoDuration = scrollVideo.duration;
+      loaderBar.style.width = "100%";
+      loaderPercent.textContent = "100%";
+      isLoaded = true;
+      // Set video to first frame
+      scrollVideo.currentTime = 0;
+      hideLoader();
+    });
 
-    function updateProgress() {
-      loaded++;
-      const pct = Math.round((loaded / FRAME_COUNT) * 100);
-      loaderBar.style.width = pct + "%";
-      loaderPercent.textContent = pct + "%";
-    }
-
-    // Phase 1: first 10 frames
-    const firstBatch = [];
-    for (let i = 0; i < Math.min(10, FRAME_COUNT); i++) {
-      firstBatch.push(
-        loadImage(i).then(updateProgress)
-      );
-    }
-    await Promise.all(firstBatch);
-
-    // Draw first frame immediately
-    if (frames[0]) {
-      bgColor = sampleBgColor(frames[0]);
-      drawFrame(0);
-    }
-
-    // Phase 2: remaining frames in batches
-    const batchSize = 10;
-    for (let start = 10; start < FRAME_COUNT; start += batchSize) {
-      const batch = [];
-      for (let i = start; i < Math.min(start + batchSize, FRAME_COUNT); i++) {
-        batch.push(loadImage(i).then(updateProgress));
+    // Fallback if canplaythrough doesn't fire (some mobile browsers)
+    setTimeout(() => {
+      if (!isLoaded) {
+        videoDuration = scrollVideo.duration || 8;
+        loaderBar.style.width = "100%";
+        loaderPercent.textContent = "100%";
+        isLoaded = true;
+        scrollVideo.currentTime = 0;
+        hideLoader();
       }
-      await Promise.all(batch);
-    }
-
-    isLoaded = true;
-    hideLoader();
+    }, 5000);
   }
 
   function hideLoader() {
@@ -213,7 +123,7 @@
 
     initHeroEntrance();
     initHeroTransition();
-    initFrameScroll();
+    initVideoScroll();
     initSections();
     initCounters();
     initMarquee();
@@ -235,7 +145,7 @@
       .to(scrollInd, { opacity: 1, duration: 0.6, ease: "power2.out" }, "-=0.3");
   }
 
-  // ---- Circle-wipe hero → canvas transition ----
+  // ---- Circle-wipe hero → video transition ----
   function initHeroTransition() {
     ScrollTrigger.create({
       trigger: scrollContainer,
@@ -249,7 +159,7 @@
         heroSection.style.opacity = Math.max(0, 1 - p * 15);
         heroSection.style.pointerEvents = p > 0.02 ? "none" : "auto";
 
-        // Canvas reveals via expanding circle
+        // Video reveals via expanding circle
         const wipeProgress = Math.min(1, Math.max(0, (p - 0.005) / 0.06));
         const radius = wipeProgress * 78;
         canvasWrap.style.clipPath = `circle(${radius}% at 50% 50%)`;
@@ -257,22 +167,20 @@
     });
   }
 
-  // ---- Frame-to-scroll binding ----
-  function initFrameScroll() {
+  // ---- Video-to-scroll binding ----
+  function initVideoScroll() {
     ScrollTrigger.create({
       trigger: scrollContainer,
       start: "top top",
       end: "bottom bottom",
       scrub: true,
       onUpdate: (self) => {
-        const accelerated = Math.min(self.progress * FRAME_SPEED, 1);
-        const index = Math.min(
-          Math.floor(accelerated * FRAME_COUNT),
-          FRAME_COUNT - 1
-        );
-        if (index !== currentFrame) {
-          currentFrame = index;
-          requestAnimationFrame(() => drawFrame(currentFrame));
+        if (!videoDuration) return;
+        const accelerated = Math.min(self.progress * VIDEO_SPEED, 1);
+        const targetTime = accelerated * videoDuration;
+        // Only update if difference is noticeable
+        if (Math.abs(scrollVideo.currentTime - targetTime) > 0.03) {
+          scrollVideo.currentTime = targetTime;
         }
       },
     });
@@ -534,5 +442,5 @@
   }
 
   // ---- Kick off ----
-  preloadFrames();
+  preloadVideo();
 })();
